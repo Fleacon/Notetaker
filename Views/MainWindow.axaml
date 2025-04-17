@@ -1,0 +1,75 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Notetaker.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Notetaker.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Notetaker"
+        MinHeight="375"
+        MinWidth="700">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Border Padding="15">
+        <Grid ColumnDefinitions="*,2*"
+              RowDefinitions="*">
+            <Grid Grid.Column="0"
+                  RowDefinitions="Auto,*"
+                  ColumnDefinitions="*"
+                  HorizontalAlignment="Stretch">
+                <Button Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        MinHeight="60"
+                        Margin="10"
+                        Content="Save"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding AddNote}"/>
+                <TextBox Grid.Row="1"
+                         TextWrapping="Wrap"
+                         Watermark="Note..."
+                         Text="{Binding CurrentContent}"/>
+            </Grid>
+            <StackPanel Grid.Column="1"
+                        Margin="20 0 0 0 ">
+                <Label Content="Notes"
+                           HorizontalAlignment="Center"
+                           FontSize="22"
+                           FontWeight="Bold"/>
+                <ItemsControl ItemsSource="{Binding Notes}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1"
+                                    BorderBrush="DimGray"
+                                    CornerRadius="10"
+                                    Padding="15"
+                                    Margin="0 2">
+                                <Grid ColumnDefinitions="Auto,*,Auto"
+                                      RowDefinitions="*">
+                                    <CheckBox Grid.Column="0"
+                                              IsChecked="{Binding IsCompleted}"
+                                              Margin="0 0 5 0"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Text="{Binding Content}"/>
+                                    <Button Grid.Column="2"
+                                            Background="Red"
+                                            Content="Delete"
+                                            Command="{Binding DeleteCommand}"
+                                            />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
